@@ -24,3 +24,13 @@ var var_name [size]var_type
 
 # Loop in Go : How long the application should work. 
 
+// create a map for user 
+	// map is a collection of key value pair. Hence 
+	// syntax :  var userDate = map[key]value
+
+All key have the same data type
+All value have the same data type
+
+To create an empty map; you can use the build in command called make
+
+var userData = make(map[string]string)
