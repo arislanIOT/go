@@ -45,3 +45,17 @@ this can be used to print a string to a variable as formatted output.
 
 # Thread (goroutine)
 # Sleep function under the package called time
+
+# Handling the blocking code with goroutines
+This is why we need concurrency in the application. To make our application cocurrent is easy while doing with the go, 
+
+# Synchronising the goroutine
+
+when main thread exits; the goroutine thread also exits. so if the main thread exit before the goroutine thread completes it will not show  the output. 
+
+# sync.WaitGroup {}
+functions of waitgroup
+
+- Add() add the counter
+- Wait() // wait till the counter becomes 0
+- Done() - removes the thread once // Dereases the counter

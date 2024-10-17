@@ -7,6 +7,7 @@ import (
 	"booking-app/helper"
 	// "strconv"
 	"time"
+	"sync"
 )
 
 var remainingTickets uint = 50
@@ -22,6 +23,7 @@ type UserData struct{
 	isOptedForInNews bool
 }
 
+var wg = sync.WaitGroup{}
 func main(){
 	// fmt.Println("Welcome to Conference Booking App")
 	// fmt.Println("Get your tickets here to attend")
@@ -37,6 +39,7 @@ func main(){
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			bookTicket(firstName, lastName, userTickets, userEmail)
+			wg.Add(1)
 			go sendTicket(firstName, lastName, userTickets, userEmail)
 			firstnames := getFirstName()// call the fucntion to print the bookings name
 			fmt.Printf("These are all your bookings: %v\n", firstnames)
@@ -61,6 +64,7 @@ func main(){
 	    }
 
 	}
+	wg.Wait()
 
 }
 
@@ -127,5 +131,5 @@ func sendTicket(firstName string, lastName string, userTickets uint, userEmail s
 	time.Sleep(10 * time.Second)
 	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
 	fmt.Printf("Sending ticket:\n %v \nto the email address %v\n", ticket, userEmail)
-
+	wg.Done()
 }
