@@ -5,12 +5,22 @@ import (
 	"fmt"
 	// "strings"
 	"booking-app/helper"
-	"strconv"
+	// "strconv"
+	"time"
 )
 
 var remainingTickets uint = 50
-var bookings = make([]map[string]string, 0) // we need to initilize the size for the map of slice which will grwo auto
+var bookings = make([]UserData, 0) // we need to initilize the size for the map of slice which will grwo auto
 
+// strcut gives us power to define what user inputs will be ...
+// strcut can be compared to classes in java etc..
+type UserData struct{
+	firstName string
+	lastName string
+	email string
+	userTickets uint
+	isOptedForInNews bool
+}
 
 func main(){
 	// fmt.Println("Welcome to Conference Booking App")
@@ -27,6 +37,7 @@ func main(){
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			bookTicket(firstName, lastName, userTickets, userEmail)
+			go sendTicket(firstName, lastName, userTickets, userEmail)
 			firstnames := getFirstName()// call the fucntion to print the bookings name
 			fmt.Printf("These are all your bookings: %v\n", firstnames)
 
@@ -56,7 +67,8 @@ func main(){
 func getFirstName() []string {
 	firstnames := []string{}
 	for _, bookings := range bookings {
-		firstnames = append(firstnames, bookings["firstName"])	
+		// firstnames = append(firstnames, bookings["firstName"])	for map
+		firstnames = append(firstnames, bookings.firstName)	
 	}
 	//fmt.Printf("These are all your bookings: %v\n", firstnames)
 	return firstnames
@@ -86,12 +98,19 @@ func getUserInput() (string, string, uint, string) {
 func bookTicket(firstName string, lastName string, userTickets uint, userEmail string) {
 
 
-	var userData = make(map[string]string)
+	// var userData = make(map[string]string)
 
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["Email"] = userEmail
-	userData["numberofTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	// userData["firstName"] = firstName
+	// userData["lastName"] = lastName
+	// userData["Email"] = userEmail
+	// userData["numberofTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+
+	var userData = UserData {
+		firstName: firstName,
+		lastName: lastName,
+		email: userEmail,
+		userTickets: userTickets,
+	}
 
 	// Now we need to add these userData into booking. 
 	// To do that we need to make booking into a slice of map.
@@ -99,7 +118,14 @@ func bookTicket(firstName string, lastName string, userTickets uint, userEmail s
 	bookings = append(bookings, userData)
 	remainingTickets = remainingTickets - userTickets
 	fmt.Printf("Thank you %v %v for choosing Confa; your %v tickets shared to your email %v\n", firstName, lastName, userTickets, userEmail)
-	fmt.Printf("User Data %v\n", bookings)
+	fmt.Printf("Remaining Tickets: %v\n", remainingTickets)
 	// return bookings, remainingTickets, userTickets
 	// return remainingTickets
+}
+
+func sendTicket(firstName string, lastName string, userTickets uint, userEmail string){
+	time.Sleep(10 * time.Second)
+	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
+	fmt.Printf("Sending ticket:\n %v \nto the email address %v\n", ticket, userEmail)
+
 }

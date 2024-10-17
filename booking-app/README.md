@@ -27,10 +27,21 @@ var var_name [size]var_type
 // create a map for user 
 	// map is a collection of key value pair. Hence 
 	// syntax :  var userDate = map[key]value
-
+# Map
 All key have the same data type
 All value have the same data type
 
 To create an empty map; you can use the build in command called make
 
 var userData = make(map[string]string)
+# Struct 
+collect different type of data types
+eg.: date of birth, subscription boolean, etc..
+user entity will have different data types, 
+
+# Sprint
+fmt.Sprintf()
+this can be used to print a string to a variable as formatted output. 
+
+# Thread (goroutine)
+# Sleep function under the package called time
